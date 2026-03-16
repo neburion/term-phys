@@ -1,46 +1,57 @@
 cmake_minimum_required(VERSION 3.20)
-project(terminal-2d-physics)
-set(CMAKE_CXX_STANDARD 17)
+project(tphys)
+# =================================================================================================
+# Config
+# =================================================================================================
+set(CXX_STANDARD       20)
+set(LIBS               ncurses)
+set(GTEST_TAG          v1.15.2)
+set(WARN_FLAGS         -Wall -Wextra -Wpedantic)
+set(SANITIZE_FLAGS     -fsanitize=undefined,address,leak)
+# =================================================================================================
+# CMake Settings
+# =================================================================================================
+set(CMAKE_CXX_STANDARD          ${CXX_STANDARD})
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
-# ===================================================================================
+if(NOT CMAKE_BUILD_TYPE)
+    set(CMAKE_BUILD_TYPE Debug)
+endif()
+# =================================================================================================
 # Sources
-# ===================================================================================
-file(GLOB_RECURSE SRC src/**/*.cpp src/*.cpp)
+# =================================================================================================
+file(GLOB_RECURSE SRC        src/*.cpp)
 file(GLOB_RECURSE TEST_FILES tests/*.cpp)
 list(FILTER SRC EXCLUDE REGEX "src/main.cpp")
-# ===================================================================================
-# Release Binary
-# ===================================================================================
-add_executable(engine src/main.cpp ${SRC})
-target_include_directories(engine PRIVATE include)
-target_link_libraries(engine PRIVATE ncurses)
-target_compile_options(engine PRIVATE -O2 -DNDEBUG)
-# ===================================================================================
-# Debug Binary
-# ===================================================================================
-add_executable(dbg-engine src/main.cpp ${SRC})
-target_include_directories(dbg-engine PRIVATE include)
-target_link_libraries(dbg-engine PRIVATE ncurses)
-target_compile_options(dbg-engine PRIVATE -g -Wall -Wextra -Wpedantic -fsanitize=undefined,address,leak)
-target_link_options(dbg-engine PRIVATE -fsanitize=undefined,address,leak)
-# ===================================================================================
+# =================================================================================================
+# Main Binary
+# =================================================================================================
+add_executable(${PROJECT_NAME} src/main.cpp ${SRC})
+target_include_directories(${PROJECT_NAME} PRIVATE include)
+target_link_libraries(${PROJECT_NAME} PRIVATE ${LIBS})
+target_compile_options(${PROJECT_NAME} PRIVATE
+    $<$<CONFIG:Debug>:${WARN_FLAGS} ${SANITIZE_FLAGS}>
+)
+target_link_options(${PROJECT_NAME} PRIVATE
+    $<$<CONFIG:Debug>:${SANITIZE_FLAGS}>
+)
+# =================================================================================================
 # GTest
-# ===================================================================================
+# =================================================================================================
 include(FetchContent)
 FetchContent_Declare(
     googletest
     GIT_REPOSITORY https://github.com/google/googletest.git
-    GIT_TAG        v1.15.2
+    GIT_TAG        ${GTEST_TAG}
 )
 FetchContent_MakeAvailable(googletest)
-# ===================================================================================
+# =================================================================================================
 # Test Binary
-# ===================================================================================
-add_executable(test-engine ${TEST_FILES} ${SRC})
-target_include_directories(test-engine PRIVATE include)
-target_link_libraries(test-engine PRIVATE ncurses GTest::gtest_main)
-target_compile_options(test-engine PRIVATE -g -Wall -Wextra -Wpedantic -fsanitize=undefined,address,leak)
-target_link_options(test-engine PRIVATE -fsanitize=undefined,address,leak)
+# =================================================================================================
+add_executable(${PROJECT_NAME}_tests ${TEST_FILES} ${SRC})
+target_include_directories(${PROJECT_NAME}_tests PRIVATE include)
+target_link_libraries(${PROJECT_NAME}_tests PRIVATE ${LIBS} GTest::gtest_main)
+target_compile_options(${PROJECT_NAME}_tests PRIVATE ${WARN_FLAGS} ${SANITIZE_FLAGS})
+target_link_options(${PROJECT_NAME}_tests PRIVATE ${SANITIZE_FLAGS})
 include(GoogleTest)
-gtest_discover_tests(test-engine)
+gtest_discover_tests(${PROJECT_NAME}_tests)
