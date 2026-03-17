@@ -1,7 +1,11 @@
 #pragma once
-#include "Shape2D.hpp"
+#include "geometry/Shape.hpp"
 
-class Circle : public Shape2D{
-private:
-    double radius;
+class Circle : public Shape{
+public:
+    Circle();
+
+    DrawMode getDrawMode() override {return DrawMode::POINTS;}
+
+    const double radius;
 };

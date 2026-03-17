@@ -1,9 +1,11 @@
 #pragma once
-#include "Shape.hpp"
-#include "Vector2D.hpp"
+#include "geometry/Shape.hpp"
+#include "geometry/Vector2D.hpp"
 #include <vector>
 
 class Polygon : public Shape{
-private:
-    std::vector<Vector2D> points;
+public:
+    Polygon();
+
+    const std::vector<Vector2D> points;
 };

@@ -1,9 +1,11 @@
 #pragma once
-#include "Shape.hpp"
-#include "Vector2D.hpp"
+#include "geometry/Shape.hpp"
+#include "geometry/Vector2D.hpp"
 
 class Line : public Shape{
-private:
-    Vector2D a;
-    Vector2D b;
+public:
+    Line();
+
+    const Vector2D a;
+    const Vector2D b;
 };

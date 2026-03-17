@@ -1,5 +1,5 @@
-#include "Angle.hpp"
-#include "Constants.hpp"
+#include "geometry/Angle.hpp"
+#include "core/Constants.hpp"
 
 Angle::Angle(double radians) : radians(radians) {}
 

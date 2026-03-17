@@ -1,6 +1,6 @@
+build/
+compile_commands.json
+shell.nix
 .cache/
 .direnv/
-compile_commands.json
 .envrc
-shell.nix
-Makefile

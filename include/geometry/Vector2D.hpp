@@ -1,13 +1,15 @@
 #pragma once
-#include "Angle.hpp"
+#include "geometry/Angle.hpp"
 
 class Vector2D{
 public:
     Vector2D(double x, double y);
 
-    double magnitudeSquared() const;
-    double magnitude() const;
-    Angle angle() const;
+    double getMagnitudeSquared() const;
+    double getMagnitude() const;
+    Angle  getAngle() const;
+
+    void   setPolar(double magnitude, Angle angle);
 
     double x;
     double y;

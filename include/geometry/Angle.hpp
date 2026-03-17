@@ -7,8 +7,8 @@ public:
     double getRadians() const;
     double getDegrees() const;
 
-    void setRadians(double radians);
-    void setDegrees(double degrees);
+    void   setRadians(double radians);
+    void   setDegrees(double degrees);
 
 private:
     double radians;
