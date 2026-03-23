@@ -1,24 +1,19 @@
 #pragma once
 #include "core/Object.hpp"
 #include "rendering/Camera.hpp"
-
-enum class Color{
-    WHITE,
-    GRAY,
-    BLUE,
-    GREEN,
-    YELLOW,
-    ORANGE,
-    RED,
-    PINK
-};
+#include "rendering/Color.hpp"
 
 class Renderer{
 public:
     Renderer();
+    ~Renderer();
 
-    void drawPoint(double x,double  y, Color color);
-    void drawLine(double x,double  y, Color color);
-    void drawObject(Object &toDraw);
-    void drawCamera(Camera &inViewScene);
+    void  drawPoint(double x,double y);
+    void  drawLine(Point pointA, Point pointB);
+    void  drawObject(Object &toDraw);
+    void  drawCamera(Camera &inViewScene);
+
+    Color getColor();
+
+    void  setColor(Color newColor);
 };

@@ -1,20 +1,22 @@
 #pragma once
 #include "core/Object.hpp"
 #include "core/Scene.hpp"
-#include "geometry/Vector2D.hpp"
+#include "geometry/Point.hpp"
 #include <vector>
 
 class Camera{
 public:
-    Camera(Scene scene);
+    Camera(Scene &scene, Point position);
 
-    int    getObjectsNumber();
+    int     getObjectsNumber();
     Object &getObjectByIndex(int index);
-    Object &getObjectByName();
 
-    void   updateView();
+    void    update();
 private:
     std::vector<int> inViewObjectsIndices;
-    Vector2D         position;
-    double           zoom;
+    int              inViewObjectsNumber;
+    Scene            &scene;
+    Point            position;
+    int              sizeX;
+    int              sizeY;
 };

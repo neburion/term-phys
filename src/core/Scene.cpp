@@ -4,9 +4,9 @@
 #include <vector>
 #include <unordered_map>
 
-void Scene::addObject(Object &&toAdd){
-    indexMap[toAdd.name] = objects.size();
-    objects.push_back(std::make_unique<Object>(std::move(toAdd)));
+void Scene::addObject(std::unique_ptr<Object> toAdd){
+    indexMap[toAdd->name] = objects.size();
+    objects.push_back(std::move(toAdd));
 }
 
 void Scene::removeObject(Object &toRemove){

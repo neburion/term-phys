@@ -1,11 +1,14 @@
 #pragma once
 #include "geometry/Shape.hpp"
-#include "geometry/Vector2D.hpp"
+#include "geometry/Point.hpp"
 
 class Line : public Shape{
 public:
-    Line();
+    Line(Point start, Point end);
 
-    const Vector2D a;
-    const Vector2D b;
+    std::vector<Point> getVerticies()       override;
+    int                getVerticiesNumber() override;
+
+    const Point a;
+    const Point b;
 };

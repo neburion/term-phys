@@ -1,11 +1,14 @@
 #pragma once
 #include "geometry/Shape.hpp"
-#include "geometry/Vector2D.hpp"
+#include "geometry/Point.hpp"
 #include <vector>
 
 class Polygon : public Shape{
 public:
-    Polygon();
+    Polygon(std::vector<Point> points);
 
-    const std::vector<Vector2D> points;
+    std::vector<Point> getVerticies()       override;
+    int                getVerticiesNumber() override;
+
+    const std::vector<Point> points;
 };
