@@ -1,7 +1,7 @@
 #pragma once
 #include "Geometry/Angle.hpp"
 #include "Geometry/Vector.hpp"
-#include "Shape/Shape.hpp"
+#include "Core/Shape.hpp"
 #include <memory>
 #include <string>
 
