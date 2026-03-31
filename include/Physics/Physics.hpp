@@ -2,7 +2,6 @@
 #include "Core/Scene.hpp"
 #include "Core/Object.hpp"
 #include "Geometry/Vector.hpp"
-#include <vector>
 
 struct Collision{
     Vector pointOfContactWorldSpace;
@@ -16,13 +15,16 @@ class Physics{
 public:
     Physics(Scene &scene);
     
-    void                   update();
-    void                   calculateNetForce (Object &object);
-    void                   calculateNetTorque(Object &object);
-    bool                   areColliding      (Object& a, Object& b);
-    void                   resolveCollision  (Object  a, Object  b);
-    std::vector<Collision> getCollisions();
-    void                   resolveCollisions();
+    void update();
+
+    void applyVelocity(Object &object);
+    void applyAngularVelocity(Object &object);
+
+    void applyNetForce(Object &object);
+    void applyNetTorque(Object &object);
+
+    bool areColliding(Object& a, Object& b);
+    void resolveCollision(Object& a, Object& b);
 private:
     Scene &scene;
 };

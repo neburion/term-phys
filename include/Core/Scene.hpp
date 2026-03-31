@@ -7,10 +7,11 @@
 
 class Scene{
 public:
-    void   addObject        (std::unique_ptr<Object> toAdd);
-    void   removeObject     (Object &toRemove);
+    void   addObject(std::unique_ptr<Object> toAdd);
+    void   removeObject(Object &toRemove);
+
     int    getObejectsNumber();
-    Object &getObjectByName (std::string toGet);
+    Object &getObjectByName(std::string toGet);
     Object &getObjectByIndex(int index);
 private:
     std::vector<std::unique_ptr<Object>> objects;

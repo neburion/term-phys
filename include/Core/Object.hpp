@@ -13,7 +13,7 @@ public:
            double                 momentOfInertia,
            double                 restitution,
            double                 friction,
-           Point                  position,
+           Vector                 position,
            Angle                  orientation);
 
     const std::string      name;
@@ -24,7 +24,7 @@ public:
     const double           restitution;     //?? (bounciness)
     const double           friction;        //??
 
-    Point                  position;        //m,pixel
+    Vector                 position;        //m,pixel
     Angle                  orientation;     //angle
 
     Vector                 velocity;        //m,pixel/s

@@ -1,4 +1,4 @@
-#include "core/Clock.hpp"
+#include "Core/Clock.hpp"
 #include <chrono>
 
 Clock::Clock():
@@ -12,19 +12,23 @@ void Clock::update(){
 }
 
 bool Clock::isTick(){
-    std::chrono::duration<double> elapsed = currentTime - lastTick;
-    if(elapsed.count() >= deltaTime){
+    std::chrono::duration<double> elapsedTime = currentTime - lastTick;
+
+    if(elapsedTime.count() >= deltaTime){
         lastTick = currentTime;
         return true;
     }
+
     return false;
 }
 
 bool Clock::isFrame(){
-    std::chrono::duration<double> elapsed = currentTime - lastFrame;
-    if(elapsed.count() >= deltaFrame){
+    std::chrono::duration<double> elapsedTime = currentTime - lastFrame;
+
+    if(elapsedTime.count() >= deltaFrame){
         lastFrame = currentTime;
         return true;
     }
+
     return false;
 }

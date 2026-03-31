@@ -1,6 +1,6 @@
-#include "rendering/Camera.hpp"
-#include "core/Object.hpp"
-#include "geometry/Point.hpp"
+#include "Rendering/Camera.hpp"
+#include "Core/Object.hpp"
+#include "Geometry/Point.hpp"
 #include <vector>
 #include <ncurses.h>
 
@@ -26,10 +26,10 @@ void Camera::update(){
     for(int i = 0; i < sceneObjectsNumber; i++){
         Object &currentObject = scene.getObjectByIndex(i);
 
-        if(currentObject.position.x <= sizeX
-        && currentObject.position.y <= sizeY
-        && currentObject.position.x >= 0
-        && currentObject.position.y >= 0){
+        if(currentObject.position.getX() <= sizeX
+        && currentObject.position.getY() <= sizeY
+        && currentObject.position.getX() >= 0
+        && currentObject.position.getY() >= 0){
             inViewObjectsNumber = scene.getObejectsNumber();
             inViewObjectsIndices.push_back(i);
         }

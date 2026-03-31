@@ -1,8 +1,10 @@
-#include "rendering/Renderer.hpp"
-#include "geometry/Shape.hpp"
-#include "core/Object.hpp"
+#include "Rendering/Renderer.hpp"
+#include "Core/Console.hpp"
+#include "Core/Shape.hpp"
+#include "Core/Object.hpp"
+#include "Geometry/Vector.hpp"
+#include <memory>
 #include <ncurses.h>
-#include <vector>
 #include <cmath>
 
 Renderer::Renderer(){
@@ -26,7 +28,9 @@ void Renderer::drawPoint(double x,double y){
     attroff(COLOR_PAIR(1));
 }
 
-// the name of the algorithm here
+// Bresenham's Line Algorithm
+// check this video for more details:
+// https://youtu.be/CceepU1vIKo?si=3TKTzkQF_QIRLytP
 void Renderer::drawLine(Point pointA, Point pointB){
     double dx = pointB.x - pointA.x;
     double dy = pointB.y - pointA.y;
@@ -49,40 +53,36 @@ void Renderer::drawLine(Point pointA, Point pointB){
     }
 }
 
+Point getTransformedVertex(Object& object, int vertexIndex){
+    Vector offset        = object.position;
+    Angle  angularOffset = object.orientation;
+
+    return (object.shape->getVertexByIndex(vertexIndex).getRotated(angularOffset)+offset).getPoint();
+}
+
 void Renderer::drawObject(Object &toDraw){
-    std::span<const Point> vertices   = toDraw.shape->getVertices();
-    int                verticesNumber = toDraw.shape->getVerticesNumber();
-    Vector             offset         = Vector(toDraw.position.x, toDraw.position.y);
-    double             orientation    = toDraw.orientation.getRadians();
+    int verticesNumber = toDraw.shape->getVerticesNumber();
 
-    if(toDraw.shape->getDrawMode() == DrawMode::CONNECTED){
-        if(verticesNumber < 2)
-            mvwprintw(stdscr, vertices[0].y, vertices[0].x, "Error");
-
-        else if(verticesNumber == 2)
-            drawLine(vertices[0].rotated(orientation)+offset,
-                     vertices[1].rotated(orientation)+offset);
-
-        else{
-            for(int i = 0; i < verticesNumber-1; i++)
-                drawLine(vertices[i].rotated(orientation)+offset,
-                         vertices[i+1].rotated(orientation)+offset);
-            drawLine(vertices[0].rotated(orientation)+offset,
-                     vertices[verticesNumber-1].rotated(orientation)+offset);
-        }
+    if(verticesNumber < 2){
+        Console::log("Object with less then two vertices is trying to get rendered.");
     }
 
-    else if(toDraw.shape->getDrawMode() == DrawMode::POINTS){
-        for(int i = 0; i < verticesNumber; i++)
-            drawPoint((vertices[i].rotated(orientation)+offset).x,
-                      (vertices[i].rotated(orientation)+offset).y);
+    else{
+        for(int i = 0; i < verticesNumber; i++){
+            drawLine(
+                getTransformedVertex(toDraw, i),
+                getTransformedVertex(toDraw, (i+1) % verticesNumber)
+            );
+        }
     }
 }
 
 void Renderer::drawCamera(Camera &inViewScene){
     inViewScene.update();
+
     clear();
-    for(int i = 0; i < inViewScene.getObjectsNumber(); i++)
+    for(int i = 0; i < inViewScene.getObjectsNumber(); i++){
         drawObject(inViewScene.getObjectByIndex(i));
+    }
     refresh();
 }

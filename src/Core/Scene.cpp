@@ -1,5 +1,5 @@
-#include "core/Scene.hpp"
-#include "core/Object.hpp"
+#include "Core/Scene.hpp"
+#include "Core/Object.hpp"
 #include <string>
 #include <vector>
 #include <unordered_map>

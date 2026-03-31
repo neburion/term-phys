@@ -3,9 +3,10 @@
 
 class Console{
 public:
-    static void        log               (const std::string &msg);
-    static std::string &getLine          (uint index);
-    std::string        &getOffsetLastLine(uint offset);
+    static void        log(const std::string &msg);
+
+    static std::string &getLineByDescendingIndex(uint index);
+    std::string        &getLineByAscendingIndex(uint offset);
 
     static const int MAX_LINES = 5;
 private:
