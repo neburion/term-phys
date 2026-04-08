@@ -2,6 +2,7 @@
 #include "Core/Scene.hpp"
 #include "Core/Object.hpp"
 #include "Core/Clock.hpp"
+#include "Core/Constants.hpp"
 #include "Geometry/Vector.hpp"
 #include <cmath>
 
@@ -23,7 +24,7 @@ void Physics::applyVelocity(Object& object){
 }
 
 void Physics::applyAngularVelocity(Object& object){
-    object.orientation += object.angularVelocity * Clock::deltaTime;
+    object.orientation+= object.angularVelocity * Clock::deltaTime;
 }
 
 void Physics::applyNetForce(Object& object){
@@ -49,15 +50,29 @@ void Physics::applyNetTorque(Object& object){
     object.netTorque.setRadians(0);
 }
 
-// Separating Axis Theorem
-// check this video:
-// https://youtu.be/dn0hUgsok9M?si=e_K7xvxChn6aHQL4
 bool Physics::areColliding(Object& a, Object& b){
     // for both shapes take every normal
     // for each normal and get the lowest and highest point on the normal
     // project these points for both shapes on the normal
     // check if they overlap
     // if they don't overlap in at least one normal they are not colliding
+    for(int i = 0; i < a.shape->getVerticesNumber(); i++){
+        Vector aVector = a.shape->getVertexVectorByIndex(i);
+        Point aPoint = a.getVertexByIndex(i);
+
+        for(int i = 0; i < b.shape->getVerticesNumber(); i++){
+            Vector bVector = b.shape->getVertexVectorByIndex(i);
+            Point bPoint = b.getVertexByIndex(i);
+
+            // normalStart: half of the vector from a to b
+            Vector sideMidPoint = (bVector+(-aVector))/2;
+
+            // normalEnd: vector from normalStart to b rotated
+            //            90 degrees away from the center.
+            Vector tmp       = bVector + (-sideMidPoint);
+            Vector normalEnd = tmp.getRotated(PI/2);
+        }
+    }
 
     return false;
 }

@@ -26,10 +26,10 @@ void Camera::update(){
     for(int i = 0; i < sceneObjectsNumber; i++){
         Object &currentObject = scene.getObjectByIndex(i);
 
-        if(currentObject.position.getX() <= sizeX
-        && currentObject.position.getY() <= sizeY
-        && currentObject.position.getX() >= 0
-        && currentObject.position.getY() >= 0){
+        if(currentObject.position.getPoint().x <= sizeX
+        && currentObject.position.getPoint().y <= sizeY
+        && currentObject.position.getPoint().x >= 0
+        && currentObject.position.getPoint().y >= 0){
             inViewObjectsNumber = scene.getObejectsNumber();
             inViewObjectsIndices.push_back(i);
         }

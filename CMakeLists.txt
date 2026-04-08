@@ -2,7 +2,7 @@
 # Settings
 # ================================================================================================
 cmake_minimum_required(VERSION 3.20)
-project(tphys) # Project name
+project(term-phys) # Project name
 
 set(LIBS                          ncurses)
 set(WARN_FLAGS                    -Wall -Wextra -Wpedantic)

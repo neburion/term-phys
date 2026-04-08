@@ -1,52 +1,31 @@
 #pragma once
-#include "Core/Constants.hpp"
-#include "Core/Console.hpp"
 #include <cmath>
 
 class Angle{
 private:
     double radians;
 public:
-    Angle(double radians) : radians(radians) {normalize();}
+    Angle(double radians);
 
-    void normalize(){
-        radians = fmod(radians, 2*PI);
-        if(radians < 0) radians += 2*PI;
-    }
+    void normalize();
 
-    double getRadians() const { return radians; }
-    double getDegrees() const { return radians * (180 / PI); }
-    Angle  getFlipped() const { return Angle(radians + PI); }
+    double getRadians() const;
+    double getDegrees() const;
+    Angle  getFlipped() const;
 
-    void setRadians(double radians) { this->radians = radians; }
-    void setDegrees(double degrees) { this->radians = degrees * (PI / 180); }
-    void setFlipped()               { radians += PI; }
+    void setRadians(double radians);
+    void setDegrees(double degrees);
+    void setFlipped();
 
     auto operator<=>(const Angle& other) const = default;
-    Angle& operator+=(const Angle& other){
-        radians += other.getRadians();
-        return *this;
-    }
-    Angle& operator-=(const Angle& other){
-        radians -= other.getRadians();
-        return *this;
-    }
-    Angle& operator*=(double scalar){
-        radians *= scalar;
-        return *this;
-    }
-    Angle& operator/=(double scalar){
-        if(scalar == 0){
-            Console::log("Division by zero");
-            return *this;
-        }
-        radians /= scalar;
-        return *this;
-    }
+    Angle& operator+=(const Angle& other);
+    Angle& operator-=(const Angle& other);
+    Angle& operator*=(double scalar);
+    Angle& operator/=(double scalar);
 };
 
-inline Angle operator+(Angle  left,   const Angle& right) {return left  += right;}
-inline Angle operator-(Angle  left,   const Angle& right) {return left  -= right;}
-inline Angle operator*(Angle  angle,  double       scalar){return angle *= scalar;}
-inline Angle operator*(double scalar, Angle        angle) {return angle *= scalar;}
-inline Angle operator/(Angle  angle,  double       scalar){return angle /= scalar;}
+Angle operator+(Angle  left,   const Angle& right);
+Angle operator-(Angle  left,   const Angle& right);
+Angle operator*(Angle  angle,  double       scalar);
+Angle operator*(double scalar, Angle        angle);
+Angle operator/(Angle  angle,  double       scalar);

@@ -16,6 +16,8 @@ public:
            Vector                 position,
            Angle                  orientation);
 
+    Point getVertexByIndex(uint index);
+
     const std::string      name;
     std::unique_ptr<Shape> shape;
 

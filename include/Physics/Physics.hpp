@@ -23,6 +23,9 @@ public:
     void applyNetForce(Object &object);
     void applyNetTorque(Object &object);
 
+    // Separating Axis Theorem
+    // check this video:
+    // https://youtu.be/dn0hUgsok9M?si=e_K7xvxChn6aHQL4
     bool areColliding(Object& a, Object& b);
     void resolveCollision(Object& a, Object& b);
 private:

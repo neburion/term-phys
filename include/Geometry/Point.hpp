@@ -1,8 +1,6 @@
 #pragma once
 #include <cmath>
 
-class Vector;
-
 class Point{
 public:
     Point(double x, double y): x(x), y(y){}

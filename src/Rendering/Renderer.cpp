@@ -2,7 +2,6 @@
 #include "Core/Console.hpp"
 #include "Core/Shape.hpp"
 #include "Core/Object.hpp"
-#include "Geometry/Vector.hpp"
 #include <memory>
 #include <ncurses.h>
 #include <cmath>
@@ -53,13 +52,6 @@ void Renderer::drawLine(Point pointA, Point pointB){
     }
 }
 
-Point getTransformedVertex(Object& object, int vertexIndex){
-    Vector offset        = object.position;
-    Angle  angularOffset = object.orientation;
-
-    return (object.shape->getVertexByIndex(vertexIndex).getRotated(angularOffset)+offset).getPoint();
-}
-
 void Renderer::drawObject(Object &toDraw){
     int verticesNumber = toDraw.shape->getVerticesNumber();
 
@@ -70,8 +62,8 @@ void Renderer::drawObject(Object &toDraw){
     else{
         for(int i = 0; i < verticesNumber; i++){
             drawLine(
-                getTransformedVertex(toDraw, i),
-                getTransformedVertex(toDraw, (i+1) % verticesNumber)
+                toDraw.getVertexByIndex(i),
+                toDraw.getVertexByIndex((i+1) % verticesNumber)
             );
         }
     }

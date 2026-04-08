@@ -1,6 +1,7 @@
 #include "Core/Object.hpp"
 #include "Geometry/Angle.hpp"
 #include "Geometry/Vector.hpp"
+#include "Geometry/Point.hpp"
 
 Object::Object(
     const std::string      name,
@@ -26,3 +27,12 @@ Object::Object(
         netForce       (Vector(Point(0,0))),
         netTorque      (Angle(0))
 {}
+
+Point Object::getVertexByIndex(uint index){
+    Vector localVertexVector = shape->getVertexVectorByIndex(index);
+
+    Vector vertex = localVertexVector.getRotated(orientation);
+    vertex+= position;
+
+    return vertex.getPoint();
+}
